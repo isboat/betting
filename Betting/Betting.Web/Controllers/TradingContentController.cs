@@ -3,15 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Betting.Core;
+using Betting.Interfaces.ModelServices;
 
 namespace Betting.Web.Controllers
 {
     public class TradingContentController : Controller
     {
+        private readonly ITradingContentService tradingContentService;
+
+        #region Constructor
+
+        public TradingContentController()
+        {
+            this.tradingContentService = IoC.Instance.Resolve<ITradingContentService>();
+        }
+
+        #endregion
+
+
         // GET: TradingContent
         public ActionResult Index()
         {
-            return View();
+            var model = this.tradingContentService.GetPopularPanels();
+
+            return View(model);
         }
 
         // GET: TradingContent/Details/5

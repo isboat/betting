@@ -1,8 +1,14 @@
-﻿
-<h2 class="bar">Semi Finals</h2>
-<div>
-    ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-    enables a clean separation of concerns and gives you full control over markup
-    for enjoyable, agile development.
-</div>
-<p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+﻿@model Betting.Web.ViewModels.PopularPanelsView
+    
+@foreach (var panel in Model.Panels)
+{
+    var index = 0;
+    
+    <div>
+        <h2 data-collapseid="@index" class='bar'>@panel.Name</h2>
+        <div class="panel" data-collapseid="@index">
+            content
+        </div>
+    </div>
+}
+
