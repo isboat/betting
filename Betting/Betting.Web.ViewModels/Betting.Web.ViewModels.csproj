@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContextCategoryView.cs" />
-    <Compile Include="ContextView.cs" />
-    <Compile Include="PanelView.cs" />
-    <Compile Include="PopularPanelsView.cs" />
+    <Compile Include="PopularPanelsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TournamentView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Betting.ViewModels\Betting.ViewModels.csproj">
+      <Project>{0DDD1DC9-595C-4647-84E8-9FC392A2525C}</Project>
+      <Name>Betting.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

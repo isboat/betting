@@ -40,16 +40,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\ITradingRepository.cs" />
     <Compile Include="Logging\ILoggingProvider.cs" />
     <Compile Include="ModelServices\ITradingContentService.cs" />
+    <Compile Include="ModelServices\IWebTradingContentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Betting.DataObjects\Betting.DataObjects.csproj">
+      <Project>{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}</Project>
+      <Name>Betting.DataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Betting.ViewModels\Betting.ViewModels.csproj">
+      <Project>{0DDD1DC9-595C-4647-84E8-9FC392A2525C}</Project>
+      <Name>Betting.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Betting.Web.ViewModels\Betting.Web.ViewModels.csproj">
       <Project>{B9E26F7B-2CDB-4612-BDBE-D571ED57A0F8}</Project>
       <Name>Betting.Web.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

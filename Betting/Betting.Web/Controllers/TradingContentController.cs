@@ -10,13 +10,13 @@ namespace Betting.Web.Controllers
 {
     public class TradingContentController : Controller
     {
-        private readonly ITradingContentService tradingContentService;
+        private readonly IWebTradingContentService webTradingContentService;
 
         #region Constructor
 
         public TradingContentController()
         {
-            this.tradingContentService = IoC.Instance.Resolve<ITradingContentService>();
+            this.webTradingContentService = IoC.Instance.Resolve<IWebTradingContentService>();
         }
 
         #endregion
@@ -25,7 +25,7 @@ namespace Betting.Web.Controllers
         // GET: TradingContent
         public ActionResult Index()
         {
-            var model = this.tradingContentService.GetPopularPanels();
+            var model = this.webTradingContentService.GetPopularPanels();
 
             return View(model);
         }

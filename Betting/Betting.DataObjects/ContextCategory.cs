@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betting.Web.ViewModels
+namespace Betting.DataObjects
 {
-    public class TournamentView
+    public class ContextCategory
     {
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public bool Ended => this.EndedOn.HasValue;
+
+        public DateTime? EndedOn { get; set; }
     }
 }

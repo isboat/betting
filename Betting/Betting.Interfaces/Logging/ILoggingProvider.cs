@@ -8,5 +8,8 @@ namespace Betting.Interfaces.Logging
 {
     public interface ILoggingProvider
     {
+        void Info(string message);
+
+        void Error(string message, Exception ex);
     }
 }

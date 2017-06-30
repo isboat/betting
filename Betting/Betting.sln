@@ -13,6 +13,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.Core", "Betting.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.Web.ViewModels", "Betting.Web.ViewModels\Betting.Web.ViewModels.csproj", "{B9E26F7B-2CDB-4612-BDBE-D571ED57A0F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.Cms", "Betting.Cms\Betting.Cms.csproj", "{8CB446D5-AADE-4061-B2CA-B91BEB774D2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.ViewModels", "Betting.ViewModels\Betting.ViewModels.csproj", "{0DDD1DC9-595C-4647-84E8-9FC392A2525C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.DataAccess", "Betting.DataAccess\Betting.DataAccess.csproj", "{773DD934-4716-48C8-8CC2-4B1212BA1268}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.DataObjects", "Betting.DataObjects\Betting.DataObjects.csproj", "{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betting.Cms.ViewModels", "Betting.Cms.ViewModels\Betting.Cms.ViewModels.csproj", "{6C8AED1E-80A3-432A-AE29-0E261F84BCA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +49,26 @@ Global
 		{B9E26F7B-2CDB-4612-BDBE-D571ED57A0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9E26F7B-2CDB-4612-BDBE-D571ED57A0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9E26F7B-2CDB-4612-BDBE-D571ED57A0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB446D5-AADE-4061-B2CA-B91BEB774D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB446D5-AADE-4061-B2CA-B91BEB774D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB446D5-AADE-4061-B2CA-B91BEB774D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB446D5-AADE-4061-B2CA-B91BEB774D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DDD1DC9-595C-4647-84E8-9FC392A2525C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DDD1DC9-595C-4647-84E8-9FC392A2525C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DDD1DC9-595C-4647-84E8-9FC392A2525C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DDD1DC9-595C-4647-84E8-9FC392A2525C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{773DD934-4716-48C8-8CC2-4B1212BA1268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773DD934-4716-48C8-8CC2-4B1212BA1268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773DD934-4716-48C8-8CC2-4B1212BA1268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773DD934-4716-48C8-8CC2-4B1212BA1268}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB72895E-D6F6-4A16-8E4B-0C163BF5B618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C8AED1E-80A3-432A-AE29-0E261F84BCA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C8AED1E-80A3-432A-AE29-0E261F84BCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C8AED1E-80A3-432A-AE29-0E261F84BCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C8AED1E-80A3-432A-AE29-0E261F84BCA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betting.Web.ViewModels
+namespace Betting.ViewModels
 {
-    public class ContextView
+    public class SelectionModel
     {
         public string Id { get; set; }
 
-        public string CatId { get; set; }
+        public string Label { get; set; }
     }
 }

@@ -1,13 +1,25 @@
-﻿@model Betting.Web.ViewModels.PopularPanelsView
+﻿@model Betting.Web.ViewModels.PopularPanelsModel
     
 @foreach (var panel in Model.Panels)
 {
     var index = 0;
     
     <div>
-        <h2 data-collapseid="@index" class='bar'>@panel.Name</h2>
+        <h1 data-collapseid="@index" class='bar'>@panel.Name</h1>
         <div class="panel" data-collapseid="@index">
-            content
+            
+            @foreach (var context in panel.Contexts)
+            {
+                <h2>@context.Label</h2>
+                <div>
+                    @foreach (var selection in context.Selections)
+                    {
+                        <div>@selection.Label <span><button>£1</button></span></div>
+                    }
+                </div>
+            }
+
+
         </div>
     </div>
 }
