@@ -81,6 +81,11 @@ namespace Betting.DataAccess.Sql
             }
         }
 
+        public List<ContextCategory> GetContextCategories(string tournamentId)
+        {
+            throw new NotImplementedException();
+        }
+
         private Tournament MakeTournament(MySqlDataReader record)
         {
             var tournament = new Tournament
