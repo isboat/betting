@@ -13,6 +13,6 @@ namespace Betting.Interfaces.DataAccess
 
         List<Tournament> GetTournaments(Dictionary<string, string> searchTags);
 
-        List<ContextCategory> GetContextCategories(string tournamentId);
+        List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags);
     }
 }

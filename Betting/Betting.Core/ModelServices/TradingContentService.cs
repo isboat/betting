@@ -7,7 +7,6 @@ using Betting.DataObjects;
 using Betting.Interfaces.DataAccess;
 using Betting.Interfaces.ModelServices;
 using Betting.ViewModels;
-using Betting.ViewModels.SearchTags;
 
 namespace Betting.Core.ModelServices
 {
@@ -38,7 +37,7 @@ namespace Betting.Core.ModelServices
         public TournamentModel GetTournament(string id)
         {
             var search = new SearchTagsView();
-            search.Tags.Add(new IdSearchTag(id));
+            search.Tags.Add(SearchBy.IdTag, id);
 
             var list = this.GetTournaments(search);
 
@@ -53,15 +52,21 @@ namespace Betting.Core.ModelServices
             response.Id = tournament.Id;
             response.Name = tournament.Name;
 
-            var contextCats = this.GetContextCategories(tournament.Id);
+            var catSearch = new SearchTagsView();
+            catSearch.Tags.Add(SearchBy.Tid, id);
+
+            response.ContextCategories = this.GetContextCategories(catSearch);
+
+            return response;
         }
 
-        public List<ContextCategoryView> GetContextCategories(string tournamentId)
+        public List<ContextCategoryView> GetContextCategories(SearchTagsView searchTags)
         {
-            throw new NotImplementedException();
+            var cats = this.tradingRepository.GetContextCategories(searchTags.Tags);
+            return cats.Select(c => this.CreateViewModel(c, this.CreateCategoryModel)).ToList();
         }
 
-        public List<ContextModel> GetContexts(string contextCatId)
+        public List<ContextModel> GetContexts(SearchTagsView searchTags)
         {
             throw new NotImplementedException();
         }
@@ -71,6 +76,16 @@ namespace Betting.Core.ModelServices
         private T CreateViewModel<T,TS>(TS domObj, Func<TS, T> func)
         {
             return func(domObj);
+        }
+
+        private ContextCategoryView CreateCategoryModel(ContextCategory model)
+        {
+            return new ContextCategoryView
+            {
+                Id = model.Id,
+                Name = model.Name,
+                CreatedOn = model.CreatedOn
+            };
         }
 
         private TournamentModel CreateTournamentModel(Tournament model)

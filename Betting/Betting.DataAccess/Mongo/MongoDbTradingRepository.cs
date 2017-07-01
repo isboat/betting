@@ -20,7 +20,7 @@ namespace Betting.DataAccess.Mongo
             throw new NotImplementedException();
         }
 
-        public List<ContextCategory> GetContextCategories(string tournamentId)
+        public List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags)
         {
             throw new NotImplementedException();
         }

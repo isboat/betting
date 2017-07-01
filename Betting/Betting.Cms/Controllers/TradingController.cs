@@ -52,7 +52,7 @@ namespace Betting.Cms.Controllers
         // GET: Trading/Details/5
         public ActionResult ViewTournament(string id)
         {
-            var model = this.tradingContentService.GetTournament(id);
+            var model = this.tradingContentService.GetTournamentDetails(id);
             return View(model);
         }
 

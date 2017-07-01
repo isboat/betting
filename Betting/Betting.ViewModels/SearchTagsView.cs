@@ -10,16 +10,15 @@ namespace Betting.ViewModels
     {
         public SearchTagsView()
         {
-            this.Tags = new List<ISearchTag>();
+            this.Tags = new Dictionary<string, string>();
         }
 
-        public List<ISearchTag> Tags { get; set; }
+        public Dictionary<string, string> Tags { get; set; }
     }
 
-    public interface ISearchTag
+    public static class SearchBy
     {
-        string Key { get; }
-
-        string Value { get; set; }
+        public const string IdTag = "id";
+        public const string Tid = "tid";
     }
 }

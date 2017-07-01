@@ -13,6 +13,12 @@ namespace Betting.ViewModels
         public string TournamentId { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public bool Ended => this.EndedOn.HasValue;
+
+        public DateTime? EndedOn { get; set; }
     }
 
     public class ContextCategoryDetails: ContextCategoryView

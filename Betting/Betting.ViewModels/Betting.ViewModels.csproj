@@ -46,7 +46,6 @@
     <Compile Include="PanelModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchTagsView.cs" />
-    <Compile Include="SearchTags\IdSearchTag.cs" />
     <Compile Include="SelectionModel.cs" />
     <Compile Include="TeamModel.cs" />
     <Compile Include="TournamentModel.cs" />

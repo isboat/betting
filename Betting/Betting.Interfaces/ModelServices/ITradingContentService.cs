@@ -17,9 +17,9 @@ namespace Betting.Interfaces.ModelServices
 
         TournamentDetailsModel GetTournamentDetails(string id);
 
-        List<ContextCategoryView> GetContextCategories(string tournamentId);
+        List<ContextCategoryView> GetContextCategories(SearchTagsView searchTags);
 
-        List<ContextModel> GetContexts(string contextCatId);
+        List<ContextModel> GetContexts(SearchTagsView searchTags);
 
     }
 }

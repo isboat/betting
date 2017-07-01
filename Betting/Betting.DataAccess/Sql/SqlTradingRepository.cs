@@ -52,6 +52,20 @@ namespace Betting.DataAccess.Sql
             {
                 this.logProvider.Info($"SqlTradingRepository, GetTournaments, tagsCount='{searchTags.Count}'");
 
+                var query = this.MakeSearchQuery(searchTags, "tournaments");
+
+                return this.ExecuteDbReader(query, record =>
+                {
+                    var records = new List<Tournament>();
+                    while (record.Read())
+                    {
+                        records.Add(MakeRecord(record, this.MakeTournament));
+                    }
+
+                    return records;
+                });
+                /*
+                 * 
                 using (var connection = new MySqlConnection(this.ConString))
                 {
                     var query = this.MakeSearchQuery(searchTags, "tournaments");
@@ -67,10 +81,62 @@ namespace Betting.DataAccess.Sql
                         var records = new List<Tournament>();
                         while (record.Read())
                         {
-                            records.Add(MakeRecord(record,this.MakeTournament));
+                            records.Add(MakeRecord(record, this.MakeTournament));
                         }
 
                         return records;
+                    }
+                }
+                */
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags)
+        {
+            try
+            {
+                //this.logProvider.Info($"SqlTradingRepository, GetContextCategories, tournamentId='{tournamentId}'");
+
+                var query = this.MakeSearchQuery(searchTags, "categories");
+
+                return this.ExecuteDbReader(query, record =>
+                {
+                    var records = new List<ContextCategory>();
+                    while (record.Read())
+                    {
+                        records.Add(MakeRecord(record, this.MakeContextCategory));
+                    }
+
+                    return records;
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private T ExecuteDbReader<T>(string query, Func<MySqlDataReader, T> func)
+        {
+            try
+            {
+                using (var connection = new MySqlConnection(this.ConString))
+                {
+                    using (var cmd = new MySqlCommand(query, connection))
+                    {
+                        cmd.CommandType = CommandType.Text;
+
+                        connection.Open();
+
+                        var record = cmd.ExecuteReader();
+
+                        return func(record);
                     }
                 }
             }
@@ -81,9 +147,22 @@ namespace Betting.DataAccess.Sql
             }
         }
 
-        public List<ContextCategory> GetContextCategories(string tournamentId)
+        private ContextCategory MakeContextCategory(MySqlDataReader record)
         {
-            throw new NotImplementedException();
+            var cat = new ContextCategory
+            {
+                Id = record["id"].ToString(),
+                TournamentId = record["tid"].ToString(),
+                Name = record["name"].ToString(),
+                CreatedOn = ToDateTime(record["createdOn"].ToString())
+            };
+
+            if (string.IsNullOrEmpty(record["createdOn"].ToString()))
+            {
+                cat.EndedOn = ToDateTime(record["createdOn"].ToString());
+            }
+
+            return cat;
         }
 
         private Tournament MakeTournament(MySqlDataReader record)
