@@ -47,8 +47,7 @@ namespace Betting.Cms.Controllers
             }
             return View();
         }
-
-
+        
         // GET: Trading/Details/5
         public ActionResult ViewTournament(string id)
         {
@@ -57,9 +56,19 @@ namespace Betting.Cms.Controllers
         }
 
         // GET: Trading/Create
-        public ActionResult Create()
+        [HttpPost]
+        public JsonResult AddContextCategory(ContextCategoryView model)
         {
-            return View();
+            var newId = this.tradingContentService.AddOrUpdateContextCategory(model);
+
+            return Json(new {id = newId, name = model.Name}, JsonRequestBehavior.DenyGet);
+        }
+        
+        // GET: Trading/Details/5
+        public ActionResult ViewCategory(string id)
+        {
+            var model = this.tradingContentService.GetContextCategoryDetails(id);
+            return View(model);
         }
 
         // POST: Trading/Create

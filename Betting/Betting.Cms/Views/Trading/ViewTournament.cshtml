@@ -1,5 +1,6 @@
 ﻿@model Betting.ViewModels.TournamentDetailsModel
 
+
 <div>
     <h4>Tournament Details</h4>
     <hr />
@@ -27,22 +28,60 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-<table class="table">
-    <tr>
-        <th>Name</th>
-        <th></th>
+<script id="cat-item-tpl" type="text/x-handlebars-template">
+    <tr class="ccat">
+        <td>
+            <div class="col-md-10">
+                <input disabled="disabled" class="form-control text-box single-line" type="text" value="{{name}}">
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-default">Edit</button> |
+            <a class="btn btn-default" href="/Trading/ViewCategory/{{id}}">View</a> |
+            <button class="btn btn-default">Delete</button> |
+        </td>
     </tr>
+</script>
+<script id="cats-tpl" type="text/x-handlebars-template">
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        <tbody class="cctable">
+            {{#each cats}}
+            {{{renderCatItem this}}}
+            {{/each}}
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" id="newName" name="Name" type="text" value="">
+                    </div>
+                </td>
+                <td>
+                    <input type="submit" value="Add" onclick="window.cms.tournamentview.addNewCategory()" class="btn btn-default">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
 
+<ul class="cclist">
     @foreach (var item in Model.ContextCategories)
     {
-        <tr>
-            <td>@item.Name</td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {/* id=item.PrimaryKey */}) |
-                @Html.ActionLink("Details", "ViewTournament", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {/* id=item.PrimaryKey */})
-            </td>
-        </tr>
+        <li data-id="@item.Id" data-tid="@item.TournamentId" data-name="@item.Name", data-created="@item.CreatedOn"></li>
     }
+</ul>
 
-</table>
+<div class="catlist"></div>
+
+<script src="~/Scripts/cms.tournamentView.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.cms.tournamentview.renderCategories();
+        window.cms.tournamentview.tid = '@Model.Id';
+    });
+</script>

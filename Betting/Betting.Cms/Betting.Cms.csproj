@@ -241,6 +241,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\cms.handlebars.js" />
+    <Content Include="Scripts\cms.tournamentView.js" />
+    <Content Include="Scripts\cms.web.js" />
+    <Content Include="Scripts\cms.handlebars-helpers.js" />
+    <Content Include="Scripts\handlebars-v4.0.10.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -290,6 +295,7 @@
     <Content Include="unity.config" />
     <Content Include="Views\Trading\Index.cshtml" />
     <Content Include="Views\Trading\ViewTournament.cshtml" />
+    <Content Include="Views\Trading\ViewCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

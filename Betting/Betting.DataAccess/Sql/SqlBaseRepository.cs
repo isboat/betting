@@ -14,13 +14,25 @@ namespace Betting.DataAccess.Sql
             this.ConString = ConnectionStrings.Sql;
         }
         
-        protected string MakeInsertOrUpdateQuery(Tournament tournament)
+        protected string MakeInsertOrUpdateTournamentQuery(Tournament tournament)
         {
             var query = string.IsNullOrEmpty(tournament.Id)
                 ? $"INSERT INTO tournaments(id, name, createdOn) VALUES('{GenerateNewId()}','{tournament.Name}','{DateTimeToStr(tournament.CreatedOn)}');"
                 : $"UPDATE tournaments SET name='{tournament.Name}', " +
                   $"createdOn='{DateTimeToStr(tournament.CreatedOn)}' " +
                   $"endedOn='{DateTimeToStr(tournament.EndedOn)}' where id = '{tournament.Id}'";
+
+            return query;
+        }
+        
+        protected string MakeInsertOrUpdateContextCategoryQuery(ContextCategory contextCategory)
+        {
+            var query = string.IsNullOrEmpty(contextCategory.Id)
+                ? $"INSERT INTO categories(id, tid, name, createdOn) " +
+                  $"VALUES('$NEWID', '{contextCategory.TournamentId}', '{contextCategory.Name}','{DateTimeToStr(contextCategory.CreatedOn)}');"
+                : $"UPDATE categories SET name='{contextCategory.Name}', " +
+                  $"createdOn='{DateTimeToStr(contextCategory.CreatedOn)}' " +
+                  $"endedOn='{DateTimeToStr(contextCategory.EndedOn)}' where id = '{contextCategory.Id}'";
 
             return query;
         }
@@ -46,7 +58,7 @@ namespace Betting.DataAccess.Sql
             return query;
         }
 
-        private string GenerateNewId()
+        protected string GenerateNewId()
         {
             var newGuid = Guid.NewGuid().ToString().Replace("-", "");
 

@@ -25,19 +25,9 @@ namespace Betting.DataAccess.Sql
                 this.logProvider.Info(
                     $"SqlTradingRepository, CreateOrUpdateTournament, id='{tournament.Id}', name='{tournament.Name}'");
 
-                using (var connection = new MySqlConnection(this.ConString))
-                {
-                    var query = this.MakeInsertOrUpdateQuery(tournament);
+                var query = this.MakeInsertOrUpdateTournamentQuery(tournament);
 
-                    using (var cmd = new MySqlCommand(query, connection))
-                    {
-                        cmd.CommandType = CommandType.Text;
-
-                        connection.Open();
-
-                        return cmd.ExecuteNonQuery();
-                    }
-                }
+                return this.ExecuteNonQuery(query);
             }
             catch (Exception ex)
             {
@@ -96,6 +86,28 @@ namespace Betting.DataAccess.Sql
             }
         }
 
+        public string AddOrUpdateContextCategory(ContextCategory contextCategory)
+        {
+            try
+            {
+                this.logProvider.Info(
+                    $"SqlTradingRepository, CreateOrUpdateTournament, id='{contextCategory.Id}', name='{contextCategory.Name}'");
+
+                var query = this.MakeInsertOrUpdateContextCategoryQuery(contextCategory);
+                var newId = GenerateNewId();
+                query = query.Replace("$NEWID", newId);
+
+                var dbResult = this.ExecuteNonQuery(query);
+
+                return dbResult == 1 ? newId : null;
+            }
+            catch (Exception ex)
+            {
+                this.logProvider.Error($"SqlTradingRepository, CreateOrUpdateTournament, id='{contextCategory.Id}', name='{contextCategory.Name}'", ex);
+                throw;
+            }
+        }
+
         public List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags)
         {
             try
@@ -119,6 +131,21 @@ namespace Betting.DataAccess.Sql
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        private int ExecuteNonQuery(string query)
+        {
+            using (var connection = new MySqlConnection(this.ConString))
+            {
+                using (var cmd = new MySqlCommand(query, connection))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    connection.Open();
+
+                    return cmd.ExecuteNonQuery();
+                }
             }
         }
 

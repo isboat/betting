@@ -13,6 +13,8 @@ namespace Betting.Interfaces.DataAccess
 
         List<Tournament> GetTournaments(Dictionary<string, string> searchTags);
 
+        string AddOrUpdateContextCategory(ContextCategory contextCategory);
+
         List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags);
     }
 }

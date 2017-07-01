@@ -20,6 +20,11 @@ namespace Betting.DataAccess.Mongo
             throw new NotImplementedException();
         }
 
+        public string AddOrUpdateContextCategory(ContextCategory contextCategory)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<ContextCategory> GetContextCategories(Dictionary<string, string> searchTags)
         {
             throw new NotImplementedException();
