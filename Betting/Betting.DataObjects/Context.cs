@@ -4,16 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betting.ViewModels
+namespace Betting.DataObjects
 {
-    public class ContextModel
+    public class Context
     {
-
-        public ContextModel()
-        {
-            this.Selections = new List<SelectionModel>();
-        }
-
         public string Id { get; set; }
 
         public string CatId { get; set; }
@@ -28,7 +22,5 @@ namespace Betting.ViewModels
         public bool Ended => this.EndedOn.HasValue;
 
         public DateTime? EndedOn { get; set; }
-
-        public List<SelectionModel> Selections { get; set; }
     }
 }

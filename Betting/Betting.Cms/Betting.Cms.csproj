@@ -242,6 +242,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\cms.handlebars.js" />
+    <Content Include="Scripts\cms.categoryView.js" />
     <Content Include="Scripts\cms.tournamentView.js" />
     <Content Include="Scripts\cms.web.js" />
     <Content Include="Scripts\cms.handlebars-helpers.js" />
@@ -296,6 +297,7 @@
     <Content Include="Views\Trading\Index.cshtml" />
     <Content Include="Views\Trading\ViewTournament.cshtml" />
     <Content Include="Views\Trading\ViewCategory.cshtml" />
+    <Content Include="Views\Trading\ViewContext.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,6 +36,31 @@ namespace Betting.DataAccess.Sql
 
             return query;
         }
+        
+        protected string MakeInsertOrUpdateContextQuery(Context context)
+        {
+            var query = string.IsNullOrEmpty(context.Id)
+                ? $"INSERT INTO contexts(id, catid, label, createdOn) " +
+                  $"VALUES('$NEWID', '{context.CatId}', '{context.Label}','{DateTimeToStr(context.CreatedOn)}');"
+                : $"UPDATE contexts SET label='{context.Label}', " +
+                  $"createdOn='{DateTimeToStr(context.CreatedOn)}' " +
+                  $"endedOn='{DateTimeToStr(context.EndedOn)}' where id = '{context.Id}'";
+
+            return query;
+        }
+        
+        protected string MakeInsertOrUpdateSelectionQuery(Selection selection)
+        {
+            var query = string.IsNullOrEmpty(selection.Id)
+                ? $"INSERT INTO selections(id, cid, label, price, createdOn) " +
+                  $"VALUES('$NEWID', '{selection.CId}', '{selection.Label}', '{selection.Price}','{DateTimeToStr(selection.CreatedOn)}');"
+                : $"UPDATE selections SET label='{selection.Label}', " +
+                  $"price='{selection.Price}' " +
+                  $"createdOn='{DateTimeToStr(selection.CreatedOn)}' " +
+                  $"endedOn='{DateTimeToStr(selection.EndedOn)}' where id = '{selection.Id}'";
+
+            return query;
+        }
 
 
         protected string MakeSearchQuery(Dictionary<string, string> searchTags, string table)

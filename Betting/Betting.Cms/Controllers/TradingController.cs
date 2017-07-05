@@ -55,19 +55,45 @@ namespace Betting.Cms.Controllers
             return View(model);
         }
 
-        // GET: Trading/Create
+        
         [HttpPost]
         public JsonResult AddContextCategory(ContextCategoryView model)
         {
-            var newId = this.tradingContentService.AddOrUpdateContextCategory(model);
+            if (ModelState.IsValid)
+            {
+                model.CreatedOn = DateTime.Now;
+                var newId = this.tradingContentService.AddOrUpdateContextCategory(model);
+                return Json(new {id = newId, name = model.Name}, JsonRequestBehavior.DenyGet);
+            }
 
-            return Json(new {id = newId, name = model.Name}, JsonRequestBehavior.DenyGet);
+            return null;
         }
         
         // GET: Trading/Details/5
         public ActionResult ViewCategory(string id)
         {
             var model = this.tradingContentService.GetContextCategoryDetails(id);
+            return View(model);
+        }
+
+        
+        [HttpPost]
+        public JsonResult AddContext(ContextModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.CreatedOn = DateTime.Now;
+                var newId = this.tradingContentService.AddOrUpdateContext(model);
+                return Json(new {id = newId, label = model.Label}, JsonRequestBehavior.DenyGet);
+            }
+
+            return null;
+        }
+        
+        // GET: Trading/Details/5
+        public ActionResult ViewContext(string id)
+        {
+            var model = this.tradingContentService.GetContext(id);
             return View(model);
         }
 

@@ -20,5 +20,7 @@ namespace Betting.ViewModels
     {
         public const string IdTag = "id";
         public const string Tid = "tid";
+        public const string CatId = "catid";
+        public const string CId = "cid";
     }
 }

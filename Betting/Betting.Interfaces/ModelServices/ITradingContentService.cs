@@ -24,5 +24,11 @@ namespace Betting.Interfaces.ModelServices
 
         List<ContextModel> GetContexts(SearchTagsView searchTags);
 
+        ContextModel GetContext(string id);
+
+        string AddOrUpdateContext(ContextModel model);
+
+        List<SelectionModel> GetSelections(SearchTagsView searchTags);
+
     }
 }

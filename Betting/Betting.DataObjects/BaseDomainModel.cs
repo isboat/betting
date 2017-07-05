@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betting.ViewModels
+namespace Betting.DataObjects
 {
-    public class SelectionModel
+    public class BaseDomainModel
     {
         public string Id { get; set; }
-
-        public string Label { get; set; }
-
-        public decimal Price { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

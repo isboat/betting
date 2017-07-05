@@ -134,6 +134,102 @@ namespace Betting.DataAccess.Sql
             }
         }
 
+        public string AddOrUpdateContext(Context context)
+        {
+            try
+            {
+                this.logProvider.Info(
+                    $"SqlTradingRepository, AddOrUpdateContext, id='{context.Id}', name='{context.Label}'");
+
+                var query = this.MakeInsertOrUpdateContextQuery(context);
+                var newId = GenerateNewId();
+                query = query.Replace("$NEWID", newId);
+
+                var dbResult = this.ExecuteNonQuery(query);
+
+                return dbResult == 1 ? newId : null;
+            }
+            catch (Exception ex)
+            {
+                this.logProvider.Error($"SqlTradingRepository, CreateOrUpdateTournament, id='{context.Id}', label='{context.Label}'", ex);
+                throw;
+            }
+        }
+
+        public List<Context> GetContexts(Dictionary<string, string> searchTags)
+        {
+            try
+            {
+                //this.logProvider.Info($"SqlTradingRepository, GetContextCategories, tournamentId='{tournamentId}'");
+
+                var query = this.MakeSearchQuery(searchTags, "contexts");
+
+                return this.ExecuteDbReader(query, record =>
+                {
+                    var records = new List<Context>();
+                    while (record.Read())
+                    {
+                        records.Add(MakeRecord(record, this.MakeContext));
+                    }
+
+                    return records;
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public List<Selection> GetSelections(Dictionary<string, string> searchTags)
+        {
+            try
+            {
+                //this.logProvider.Info($"SqlTradingRepository, GetContextCategories, tournamentId='{tournamentId}'");
+
+                var query = this.MakeSearchQuery(searchTags, "selections");
+
+                return this.ExecuteDbReader(query, record =>
+                {
+                    var records = new List<Selection>();
+                    while (record.Read())
+                    {
+                        records.Add(MakeRecord(record, this.MakeSelection));
+                    }
+
+                    return records;
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public string CreateOrUpdateSelection(Selection selection)
+        {
+            try
+            {
+                this.logProvider.Info(
+                    $"SqlTradingRepository, CreateOrUpdateSelection, id='{selection.Id}', name='{selection.Label}'");
+
+                var query = this.MakeInsertOrUpdateSelectionQuery(selection);
+                var newId = GenerateNewId();
+                query = query.Replace("$NEWID", newId);
+
+                var dbResult = this.ExecuteNonQuery(query);
+
+                return dbResult == 1 ? newId : null;
+            }
+            catch (Exception ex)
+            {
+                this.logProvider.Error($"SqlTradingRepository, CreateOrUpdateSelection, id='{selection.Id}', label='{selection.Label}'", ex);
+                throw;
+            }
+        }
+
         private int ExecuteNonQuery(string query)
         {
             using (var connection = new MySqlConnection(this.ConString))
@@ -184,9 +280,46 @@ namespace Betting.DataAccess.Sql
                 CreatedOn = ToDateTime(record["createdOn"].ToString())
             };
 
-            if (string.IsNullOrEmpty(record["createdOn"].ToString()))
+            if (!string.IsNullOrEmpty(record["endedOn"].ToString()))
             {
-                cat.EndedOn = ToDateTime(record["createdOn"].ToString());
+                cat.EndedOn = ToDateTime(record["endedOn"].ToString());
+            }
+
+            return cat;
+        }
+
+        private Context MakeContext(MySqlDataReader record)
+        {
+            var cat = new Context
+            {
+                Id = record["id"].ToString(),
+                CatId = record["catid"].ToString(),
+                Label = record["label"].ToString(),
+                CreatedOn = ToDateTime(record["createdOn"].ToString())
+            };
+
+            if (!string.IsNullOrEmpty(record["endedOn"].ToString()))
+            {
+                cat.EndedOn = ToDateTime(record["endedOn"].ToString());
+            }
+
+            return cat;
+        }
+
+        private Selection MakeSelection(MySqlDataReader record)
+        {
+            var cat = new Selection
+            {
+                Id = record["id"].ToString(),
+                CId = record["cid"].ToString(),
+                Label = record["label"].ToString(),
+                Price = Convert.ToDecimal(record["label"].ToString()),
+                CreatedOn = ToDateTime(record["createdOn"].ToString())
+            };
+
+            if (!string.IsNullOrEmpty(record["endedOn"].ToString()))
+            {
+                cat.EndedOn = ToDateTime(record["endedOn"].ToString());
             }
 
             return cat;
@@ -201,9 +334,9 @@ namespace Betting.DataAccess.Sql
                 CreatedOn = ToDateTime(record["createdOn"].ToString())
             };
 
-            if (string.IsNullOrEmpty(record["createdOn"].ToString()))
+            if (!string.IsNullOrEmpty(record["endedOn"].ToString()))
             {
-                tournament.EndedOn = ToDateTime(record["createdOn"].ToString());
+                tournament.EndedOn = ToDateTime(record["endedOn"].ToString());
             }
 
             return tournament;

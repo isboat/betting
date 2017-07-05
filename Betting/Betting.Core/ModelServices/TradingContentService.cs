@@ -82,6 +82,7 @@ namespace Betting.Core.ModelServices
             return cats.Select(c => this.CreateViewModel(c, this.CreateCategoryModel)).ToList();
         }
 
+
         public ContextCategoryDetails GetContextCategoryDetails(string id)
         {
             var searchTag = new SearchTagsView();
@@ -98,16 +99,71 @@ namespace Betting.Core.ModelServices
             {
                 Id = cat.Id,
                 TournamentId = cat.TournamentId,
-                Name = cat.Name
+                Name = cat.Name,
+                CreatedOn = cat.CreatedOn
             };
+
+            var contextSearch = new SearchTagsView();
+            contextSearch.Tags.Add(SearchBy.CatId, cat.Id);
+            var contexts = this.GetContexts(contextSearch);
+
+            response.ContextModels = contexts;
 
             return response;
         }
 
+
+
         public List<ContextModel> GetContexts(SearchTagsView searchTags)
         {
-            throw new NotImplementedException();
+            var contexts = this.tradingRepository.GetContexts(MapSearchTags(searchTags));
+
+            return contexts.Select(t => this.CreateViewModel(t, this.CreateContextModel)).ToList();
         }
+
+        public ContextModel GetContext(string id)
+        {
+            var searchTag = new SearchTagsView();
+            searchTag.Tags.Add(SearchBy.IdTag, id);
+            var context = this.GetContexts(searchTag).FirstOrDefault();
+
+            if (context == null)
+            {
+                return null;
+            }
+            
+
+            var selectionSearch = new SearchTagsView();
+            selectionSearch.Tags.Add(SearchBy.CId, id);
+            var selections = this.GetSelections(selectionSearch);
+            context.Selections = selections;
+
+            return context;
+        }
+
+        public string AddOrUpdateContext(ContextModel model)
+        {
+            var newId =
+                tradingRepository.AddOrUpdateContext(
+                    new Context
+                    {
+                        Id = model.Id,
+                        CatId = model.CatId,
+                        Label = model.Label,
+                        CreatedOn = model.CreatedOn,
+                        EndedOn = model.EndedOn
+                    });
+
+            return newId;
+        }
+
+        public List<SelectionModel> GetSelections(SearchTagsView searchTags)
+        {
+            var selections = this.tradingRepository.GetSelections(MapSearchTags(searchTags));
+
+            return selections.Select(t => this.CreateViewModel(t, this.CreateSelectionModel)).ToList();
+        }
+
 
         #region Privates
         
@@ -122,6 +178,27 @@ namespace Betting.Core.ModelServices
             {
                 Id = model.Id,
                 Name = model.Name,
+                CreatedOn = model.CreatedOn
+            };
+        }
+
+        private ContextModel CreateContextModel(Context model)
+        {
+            return new ContextModel
+            {
+                Id = model.Id,
+                Label = model.Label,
+                CreatedOn = model.CreatedOn
+            };
+        }
+
+        private SelectionModel CreateSelectionModel(Selection model)
+        {
+            return new SelectionModel
+            {
+                Id = model.Id,
+                Label = model.Label,
+                Price = model.Price,
                 CreatedOn = model.CreatedOn
             };
         }

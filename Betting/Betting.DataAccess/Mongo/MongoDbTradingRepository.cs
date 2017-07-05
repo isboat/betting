@@ -29,5 +29,25 @@ namespace Betting.DataAccess.Mongo
         {
             throw new NotImplementedException();
         }
+
+        public string AddOrUpdateContext(Context context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Context> GetContexts(Dictionary<string, string> searchTags)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Selection> GetSelections(Dictionary<string, string> searchTags)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string CreateOrUpdateSelection(Selection selection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
