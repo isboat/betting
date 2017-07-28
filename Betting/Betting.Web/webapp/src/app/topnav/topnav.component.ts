@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
 import { BetslipsService } from '../services/betslips.service';
+
 
 @Component({
   selector: 'topnav',
@@ -18,12 +20,11 @@ export class TopnavComponent implements OnInit {
   ngOnInit() {
     this.navItems.push({ name: 'Home', url: ''});
     this.navItems.push({ name: 'Link', url: '/link'});
-    this.navItems.push({ name: 'Home', url: ''});
+    this.navItems.push({ name: 'Bet slip', url: '/betslip'});
     
     this._betSlipsService.getBetSlipCount().subscribe(count => {
-      console.log(count);
       this.slipsBadge = count;
-    })
+    });
   }
 
   ngOnDestroy(){

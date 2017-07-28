@@ -23,6 +23,6 @@ export class PopularpanelsComponent implements OnInit {
   }
 
   addToBetSlip(selection: any){
-    this._betslipsService.updateBetSlips(selection);
+    this._betslipsService.addBetSlipItem(selection);
   }
 }

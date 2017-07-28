@@ -12,8 +12,29 @@ export class BetslipsService {
 
   constructor() { }
 
-  updateBetSlips(selection: any){
+  getSlips(){
+    return this.slips;
+  }
+
+  deleteSlipItem(id: string){
+    for (var index = 0; index < this.slips.length; index++) {
+      var element = this.slips[index];
+      if (element.Id === id) {
+        this.slips.splice(index, 1);
+        break;
+      }
+    }
+
+    this.notifySlipCounterListeners();
+  }
+
+  addBetSlipItem(selection: any){
     this.slips.push(selection);
+    
+    this.notifySlipCounterListeners();
+  }
+
+  notifySlipCounterListeners() {
     this.subject.next(this.slips.length);
   }
 

@@ -1,3 +1,31 @@
-<p>
-  betslip works!
+<p *ngIf="noSlipMsg">
+  {{noSlipMsg}}
 </p>
+
+<div class="container-fluid">
+  <div *ngFor="let slip of slips; let i = index">
+    <div class="row slip-detRow">
+        <div class="col-1 slip-close-div">
+          <button type="button" class="close" aria-label="Close" (click)="deleteSlipItem(slip)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="col-4">{{slip.Label}}</div>
+        <div class="col-7">
+          
+          <form class="form-inline">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <label class="slip-odds" for="slip_{{i}}">@{{slip.FirstNum}}/{{slip.SecondNum}}</label>
+              <input type="text" class="form-control" id="slip_{{i}}">
+              <div class="input-group-addon">ghs</div>
+            </div>
+          </form>
+        </div>
+    </div>
+    <div class="row slip-returnRow">
+        <div class="col-12">
+          <span class="slip-est-returns">Est. Return: {{slip.EstReturns}}</span>
+        </div>
+    </div>
+  </div>
+</div>

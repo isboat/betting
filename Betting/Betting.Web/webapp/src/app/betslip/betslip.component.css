@@ -1,0 +1,21 @@
+.slip-odds {
+    margin-right: 10px;
+    margin-top: 5px
+}
+
+.slip-returnRow {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.slip-detRow {
+    padding-top: 10px;
+}
+.slip-returnRow .slip-est-returns {
+    float: right;
+}
+
+.slip-close-div {
+    padding-left: 5px;
+    padding-right: 10px;
+}
