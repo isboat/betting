@@ -23,6 +23,12 @@ namespace Betting.Interfaces.DataAccess
 
         List<Selection> GetSelections(Dictionary<string, string> searchTags);
 
+        List<Team> GetTeams(Dictionary<string, string> searchTags);
+
         string CreateOrUpdateSelection(Selection selection);
+
+        string AddOrUpdateTeam(Team team);
+
+        bool DeleteSelection(string id);
     }
 }

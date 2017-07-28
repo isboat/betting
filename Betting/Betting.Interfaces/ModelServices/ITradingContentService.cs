@@ -30,5 +30,13 @@ namespace Betting.Interfaces.ModelServices
 
         List<SelectionModel> GetSelections(SearchTagsView searchTags);
 
+        List<TeamModel> GetTeams(SearchTagsView searchTags);
+
+        string AddOrUpdateTeam(TeamModel model);
+
+        string AddOrUpdateSelection(SelectionModel model);
+
+        bool DeleteSelection(string id);
+
     }
 }

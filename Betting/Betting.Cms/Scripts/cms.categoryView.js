@@ -39,8 +39,23 @@
         });
     }
 
+    function updateContext(item, callbk) {
+        window.cms.web.post({
+            url: "/trading/UpdateContext",
+            data: {
+                Id: item.id,
+                Label: item.label,
+                CatId: window.cms.categoryview.catid
+            },
+            success: function (data) {
+                callbk(data);
+            }
+        });
+    }
+
     window.cms.categoryview = {
         addNewContext: addNewContext,
-        renderContexts: renderContexts
+        renderContexts: renderContexts,
+        updateContext: updateContext
     };
 })();

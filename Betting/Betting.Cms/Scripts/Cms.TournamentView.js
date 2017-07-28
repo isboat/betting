@@ -39,8 +39,23 @@
         });
     }
 
+    function savecategory(item, callbk) {
+        window.cms.web.post({
+            url: "/trading/UpdateCategory",
+            data: {
+                Id: item.id,
+                Name: item.name,
+                TournamentId: window.cms.tournamentview.tid
+            },
+            success: function (data) {
+                callbk();
+            }
+        });
+    }
+
     window.cms.tournamentview = {
         addNewCategory: addNewCategory,
-        renderCategories: renderCategories
+        renderCategories: renderCategories,
+        savecategory: savecategory
     };
 })();

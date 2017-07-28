@@ -45,7 +45,22 @@ namespace Betting.DataAccess.Mongo
             throw new NotImplementedException();
         }
 
+        public List<Team> GetTeams(Dictionary<string, string> searchTags)
+        {
+            throw new NotImplementedException();
+        }
+
         public string CreateOrUpdateSelection(Selection selection)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AddOrUpdateTeam(Team team)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteSelection(string id)
         {
             throw new NotImplementedException();
         }

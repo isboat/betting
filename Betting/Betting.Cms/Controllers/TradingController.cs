@@ -54,7 +54,6 @@ namespace Betting.Cms.Controllers
             var model = this.tradingContentService.GetTournamentDetails(id);
             return View(model);
         }
-
         
         [HttpPost]
         public JsonResult AddContextCategory(ContextCategoryView model)
@@ -69,13 +68,24 @@ namespace Betting.Cms.Controllers
             return null;
         }
         
+        [HttpPost]
+        public JsonResult UpdateCategory(ContextCategoryView model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newId = this.tradingContentService.AddOrUpdateContextCategory(model);
+                return Json(new {id = newId, name = model.Name}, JsonRequestBehavior.DenyGet);
+            }
+
+            return null;
+        }
+        
         // GET: Trading/Details/5
         public ActionResult ViewCategory(string id)
         {
             var model = this.tradingContentService.GetContextCategoryDetails(id);
             return View(model);
         }
-
         
         [HttpPost]
         public JsonResult AddContext(ContextModel model)
@@ -90,6 +100,18 @@ namespace Betting.Cms.Controllers
             return null;
         }
         
+        [HttpPost]
+        public JsonResult UpdateContext(ContextModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newId = this.tradingContentService.AddOrUpdateContext(model);
+                return Json(new {id = newId, label = model.Label}, JsonRequestBehavior.DenyGet);
+            }
+
+            return null;
+        }
+        
         // GET: Trading/Details/5
         public ActionResult ViewContext(string id)
         {
@@ -97,48 +119,60 @@ namespace Betting.Cms.Controllers
             return View(model);
         }
 
-        // POST: Trading/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public JsonResult AddSelection(SelectionModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                model.CreatedOn = DateTime.Now;
+                var newId = this.tradingContentService.AddOrUpdateSelection(model);
+                return Json(new { id = newId, label = model.Label }, JsonRequestBehavior.DenyGet);
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return null;
         }
 
-        // GET: Trading/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Trading/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public JsonResult UpdateSelection(SelectionModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                var newId = this.tradingContentService.AddOrUpdateSelection(model);
+                return Json(new { id = newId, label = model.Label }, JsonRequestBehavior.DenyGet);
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return null;
         }
 
         // GET: Trading/Delete/5
-        public ActionResult Delete(int id)
+        public JsonResult DeleteSelection(string id)
         {
-            return View();
+            return Json(!string.IsNullOrEmpty(id) && this.tradingContentService.DeleteSelection(id), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AddTeam(TeamModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.CreatedOn = DateTime.Now;
+                var newId = this.tradingContentService.AddOrUpdateTeam(model);
+                return Json(new { id = newId, name = model.Name }, JsonRequestBehavior.DenyGet);
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult UpdateTeam(TeamModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newId = this.tradingContentService.AddOrUpdateTeam(model);
+                return Json(new { id = newId, name = model.Name }, JsonRequestBehavior.DenyGet);
+            }
+
+            return null;
         }
 
         // POST: Trading/Delete/5

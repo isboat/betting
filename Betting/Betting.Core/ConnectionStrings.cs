@@ -13,7 +13,10 @@ namespace Betting.Core
         {
             get
             {
-                return ConfigurationManager.ConnectionStrings["mysql"].ConnectionString;
+                var environmentString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_mysql");
+
+                return !string.IsNullOrEmpty(environmentString) ? environmentString : ConfigurationManager.ConnectionStrings["mysql"].ConnectionString;
+                //return ConfigurationManager.ConnectionStrings["mysql"].ConnectionString;
             }
         }
         public static string Mongo

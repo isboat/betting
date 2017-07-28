@@ -107,7 +107,7 @@ namespace Betting.Core.ModelServices
             contextSearch.Tags.Add(SearchBy.CatId, cat.Id);
             var contexts = this.GetContexts(contextSearch);
 
-            response.ContextModels = contexts;
+            response.Contexts = contexts;
 
             return response;
         }
@@ -132,11 +132,13 @@ namespace Betting.Core.ModelServices
                 return null;
             }
             
-
             var selectionSearch = new SearchTagsView();
             selectionSearch.Tags.Add(SearchBy.CId, id);
             var selections = this.GetSelections(selectionSearch);
             context.Selections = selections;
+            
+            var teams = this.GetTeams(selectionSearch);
+            context.Teams = teams;
 
             return context;
         }
@@ -164,9 +166,55 @@ namespace Betting.Core.ModelServices
             return selections.Select(t => this.CreateViewModel(t, this.CreateSelectionModel)).ToList();
         }
 
+        public List<TeamModel> GetTeams(SearchTagsView searchTags)
+        {
+            var teams = this.tradingRepository.GetTeams(MapSearchTags(searchTags));
+
+            return teams.Select(t => this.CreateViewModel(t, this.CreateTeamModel)).ToList();
+        }
+
+        public string AddOrUpdateTeam(TeamModel model)
+        {
+            var newId =
+                tradingRepository.AddOrUpdateTeam(
+                    new Team
+                    {
+                        Id = model.Id,
+                        Cid = model.Cid,
+                        Name = model.Name,
+                        Description = model.Description,
+                        CreatedOn = model.CreatedOn,
+                        EndedOn = model.EndedOn
+                    });
+
+            return newId;
+        }
+
+        public string AddOrUpdateSelection(SelectionModel model)
+        {
+            var selection = new Selection
+            {
+                Id = model.Id,
+                Cid = model.Cid,
+                Label = model.Label,
+                Odds = $"{model.FirstNum}/{model.SecondNum}",
+                CreatedOn = model.CreatedOn,
+                EndedOn = model.EndedOn
+            };
+
+            var newId = tradingRepository.CreateOrUpdateSelection(selection);
+
+            return newId;
+        }
+
+        public bool DeleteSelection(string id)
+        {
+            return this.tradingRepository.DeleteSelection(id);
+        }
+
 
         #region Privates
-        
+
         private T CreateViewModel<T,TS>(TS domObj, Func<TS, T> func)
         {
             return func(domObj);
@@ -192,13 +240,28 @@ namespace Betting.Core.ModelServices
             };
         }
 
+        private TeamModel CreateTeamModel(Team model)
+        {
+            return new TeamModel
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Cid = model.Cid,
+                Description = model.Description,
+                CreatedOn = model.CreatedOn
+            };
+        }
+
         private SelectionModel CreateSelectionModel(Selection model)
         {
+            var splitOdds = model.Odds.Split('/');
             return new SelectionModel
             {
                 Id = model.Id,
+                Cid = model.Cid,
                 Label = model.Label,
-                Price = model.Price,
+                FirstNum = int.Parse(splitOdds[0]),
+                SecondNum = int.Parse(splitOdds[1]),
                 CreatedOn = model.CreatedOn
             };
         }

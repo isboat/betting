@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Betting.DataAccess
         {
             // 05/07/2017 05:21:24
             var parts = str.Split(' ');
-            var date = DateTime.Parse(parts[0]);
+            var date = DateTime.ParseExact(parts[0], "dd/MM/yyyy", CultureInfo.InvariantCulture);
             var time = TimeSpan.Parse(parts[1]);
 
             date = date.Add(time);

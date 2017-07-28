@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Betting.ViewModels
 {
-    public class TeamModel
+    public class TeamModel : BaseViewModel
     {
-        public string Id { get; set; }
+
+        public string Cid { get; set; }
 
         public string Name { get; set; }
 

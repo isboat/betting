@@ -21,6 +21,14 @@ namespace Betting.Web.Controllers
 
         #endregion
 
+        public JsonResult GetPopularPanels()
+        {
+            var model = this.webTradingContentService.GetPopularPanels();
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         // GET: TradingContent
         public ActionResult Index()

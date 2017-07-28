@@ -1,0 +1,19 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" routerLink="/">
+    Pulse Bet
+  </a>
+  <a class="navbar-brand" routerLink="/betslip">
+    <span class="badge badge-pill badge-danger">{{slipsBadge}}</span>
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li *ngFor="let navItem of navItems" class="nav-item">
+        <a class="nav-link" routerLink="{{navItem.url}}">{{navItem.name}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

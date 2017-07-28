@@ -21,24 +21,53 @@ namespace Betting.Web.ModelServices
 
         public PopularPanelsModel GetPopularPanels()
         {
+            var tournaments = this.tradingContentService.GetTournaments(new SearchTagsView());
             var panels = new PopularPanelsModel();
 
-            for (int i = 0; i < 5; i++)
+            foreach (var tournament in tournaments)
             {
                 var panel = new PanelModel
                 {
-                    Name = "Panel " + i,
-                    Contexts = new List<ContextModel>()
+                    Name = tournament.Name
                 };
 
-                var context = new ContextModel { Label = $"College {i} vs College {i + 1} vs College {i+2}"};
+                var catSearch = new SearchTagsView();
+                catSearch.Tags.Add(SearchBy.Tid, tournament.Id);
+                var categories = this.tradingContentService.GetContextCategories(catSearch);
 
-                for (int j = 0; j < 3; j++)
+                foreach (var category in categories)
                 {
-                    var sel = new SelectionModel { Label = "College "+j + " win"};
-                    context.Selections.Add(sel);
+                    // eg Semi Finals
+                    var contextCat = new ContextCategoryDetails
+                    {
+                        Id = category.Id,
+                        Name = category.Name
+                    };
+
+                    var contextSearch = new SearchTagsView();
+                    contextSearch.Tags.Add(SearchBy.CatId, category.Id);
+                    var contexts = this.tradingContentService.GetContexts(contextSearch);
+
+                    foreach (var context in contexts)
+                    {
+                        var contextView = new ContextModel
+                        {
+                            Id = context.Id,
+                            CatId = category.Id,
+                            Label = context.Label
+                        };
+
+                        var selectionSearch = new SearchTagsView();
+                        selectionSearch.Tags.Add(SearchBy.CId, context.Id);
+                        var selections = this.tradingContentService.GetSelections(selectionSearch);
+                        contextView.Selections = selections;
+
+
+                        contextCat.Contexts.Add(contextView);
+                    }
+
+                    panel.ContextCategory.Add(contextCat);
                 }
-                panel.Contexts.Add(context);
 
                 panels.Panels.Add(panel);
             }

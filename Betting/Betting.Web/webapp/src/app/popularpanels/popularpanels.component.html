@@ -1,0 +1,47 @@
+<div id="popularpanels" role="tablist" aria-multiselectable="true">
+
+  <div *ngFor="let panel of panels; let i = index" class="card">
+    <div class="card-header" role="tab" id="heading_{{i}}">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#popularpanels" href="#collapse_pp{{i}}" aria-expanded="true">
+          {{panel.Name}}
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapse_pp{{i}}" class="collapse show" role="tabpanel">
+      <div class="card-block">
+
+        <div *ngFor="let cat of panel.ContextCategory" class="catclass">
+          <div *ngFor="let context of cat.Contexts; let i = index" class="contextdiv">
+            <div id="contextpanels" role="tablist" aria-multiselectable="true">
+              <div class="card-header" role="tab" id="context_heading_{{i}}">
+                <a class="mb-0" data-toggle="collapse" data-parent="#contextpanels" href="#context_collapse_pp{{i}}" aria-expanded="true">
+                  {{context.Label}}
+                </a>
+              </div>
+              <div id="context_collapse_pp{{i}}" class="collapse show" role="tabpanel">
+                <div class="card-block">
+                  <table class="table table-sm table-striped table-inverse">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Odds</th>
+                      </tr>
+                    </thead>
+                    <tbody id="context_collapse_pp{{i}}" class="collapse show" role="tabpanel">
+                      <tr *ngFor="let selection of context.Selections; let s = index">
+                        <th scope="row">{{selection.Label}}</th>
+                        <td><button type="button" (click)="addToBetSlip(selection)"  class="btn btn-info btn-sm">{{selection.FirstNum}} / {{selection.SecondNum}}</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

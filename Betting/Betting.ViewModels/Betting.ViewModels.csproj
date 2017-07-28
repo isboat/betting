@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseResponse.cs" />
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="ContextCategoryView.cs" />
     <Compile Include="ContextModel.cs" />
     <Compile Include="PanelModel.cs" />

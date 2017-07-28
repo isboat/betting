@@ -11,13 +11,13 @@ namespace Betting.DataObjects
         /// <summary>
         /// Context Id
         /// </summary>
-        public string CId { get; set; }
+        public string Cid { get; set; }
 
         /// <summary>
         /// Eg Adisco v Prem v Presec
         /// </summary>
         public string Label { get; set; }
 
-        public decimal Price { get; set; }
+        public string Odds { get; set; }
     }
 }

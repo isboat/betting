@@ -48,16 +48,17 @@
 </div>
 
 <script id="context-item-tpl" type="text/x-handlebars-template">
-    <tr class="ccat">
+    <tr class="ccat" data-id="{{id}}">
         <td>
             <div class="col-md-10">
-                <input disabled="disabled" class="form-control text-box single-line" type="text" value="{{label}}">
+                <input disabled="disabled" class="form-control text-box single-line contextlabel" type="text" value="{{label}}">
             </div>
         </td>
         <td>
-            <button class="btn btn-default">Edit</button> |
-            <a class="btn btn-default" href="/Trading/ViewContext/{{id}}">View</a> |
-            <button class="btn btn-default">Delete</button> |
+            <button class="btn btn-default editbtn">Edit</button>
+            <button class="btn btn-default savebtn saveContext" style="display: none;">Save</button>
+            <a class="btn btn-default" href="/Trading/ViewContext/{{id}}">View</a>
+            <button class="btn btn-default">Delete</button>
         </td>
     </tr>
 </script>
@@ -87,8 +88,8 @@
     </table>
 </script>
 
-<ul class="contexts">
-    @foreach (var item in Model.ContextModels)
+<ul class="contexts hide">
+    @foreach (var item in Model.Contexts)
     {
         <li data-id="@item.Id" data-catid="@item.CatId" data-label="@item.Label" , data-created="@item.CreatedOn"></li>
     }
@@ -96,11 +97,39 @@
 
 <div class="contextlist"></div>
 
-<script src="~/Scripts/cms.categoryView.js"></script>
+<script src="~/Scripts/cms.categoryView.js?@DateTime.Now.Ticks"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
         window.cms.categoryview.renderContexts();
         window.cms.categoryview.catid = '@Model.Id';
+
+        $(".editbtn").click(function () {
+            var tr = $(this).parents(".ccat");
+            tr.find("[disabled='disabled']").removeAttr("disabled");
+            tr.find(".savebtn").show();
+
+            $(this).hide();
+        });
+
+        $(".saveContext").click(function () {
+            var tr = $(this).parents(".ccat");
+
+            var id = tr.attr("data-id");
+            var label = tr.find(".contextlabel").val();
+
+            var $ele = $(this);
+            window.cms.categoryview.updateContext({
+                    id: id,
+                    label: label
+                },
+                function () {
+                    tr.find("input").attr("disabled", "disabled");
+                    tr.find(".selectionDir").attr("disabled", "disabled");
+                    tr.find(".editbtn").show();
+                    $ele.hide();
+                });
+
+        });
     });
 </script>

@@ -29,16 +29,17 @@
 </p>
 
 <script id="cat-item-tpl" type="text/x-handlebars-template">
-    <tr class="ccat">
+    <tr class="ccat" data-id="{{id}}">
         <td>
             <div class="col-md-10">
-                <input disabled="disabled" class="form-control text-box single-line" type="text" value="{{name}}">
+                <input disabled="disabled" class="form-control text-box single-line catname" type="text" value="{{name}}">
             </div>
         </td>
         <td>
-            <button class="btn btn-default">Edit</button> |
-            <a class="btn btn-default" href="/Trading/ViewCategory/{{id}}">View</a> |
-            <button class="btn btn-default">Delete</button> |
+            <button class="btn btn-default editbtn">Edit</button>
+            <button class="btn btn-default savebtn saveCat" style="display: none;">Save</button>
+            <a class="btn btn-default" href="/Trading/ViewCategory/{{id}}">View</a>
+            <button class="btn btn-default">Delete</button>
         </td>
     </tr>
 </script>
@@ -77,11 +78,38 @@
 
 <div class="catlist"></div>
 
-<script src="~/Scripts/cms.tournamentView.js"></script>
+<script src="~/Scripts/cms.tournamentView.js?@DateTime.Now.Ticks"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
         window.cms.tournamentview.renderCategories();
         window.cms.tournamentview.tid = '@Model.Id';
+
+        $(".editbtn").click(function () {
+            var tr = $(this).parents(".ccat");
+            tr.find("[disabled='disabled']").removeAttr("disabled");
+            tr.find(".savebtn").show();
+
+            $(this).hide();
+        });
+
+        $(".saveCat").click(function () {
+            var tr = $(this).parents(".ccat");
+
+            var id = tr.attr("data-id");
+            var name = tr.find(".catname").val();
+
+            var $ele = $(this);
+            window.cms.tournamentview.savecategory({
+                    id: id,
+                    name: name
+                },
+                function () {
+                    tr.find("input").attr("disabled", "disabled");
+                    tr.find(".editbtn").show();
+                    $ele.hide();
+                });
+
+        });
     });
 </script>

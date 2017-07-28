@@ -10,6 +10,17 @@
                 error: options.error
             });
 
+        },
+        get: function(options) {
+
+            $.ajax({
+                url: options.url,
+                method: "GET",
+                data: options.data,
+                success: options.success,
+                error: options.error
+            });
+
         }
     };
 })();

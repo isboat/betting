@@ -208,6 +208,32 @@ namespace Betting.DataAccess.Sql
             }
         }
 
+        public List<Team> GetTeams(Dictionary<string, string> searchTags)
+        {
+            try
+            {
+                //this.logProvider.Info($"SqlTradingRepository, GetContextCategories, tournamentId='{tournamentId}'");
+
+                var query = this.MakeSearchQuery(searchTags, "teams");
+
+                return this.ExecuteDbReader(query, record =>
+                {
+                    var records = new List<Team>();
+                    while (record.Read())
+                    {
+                        records.Add(MakeRecord(record, this.MakeTeam));
+                    }
+
+                    return records;
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public string CreateOrUpdateSelection(Selection selection)
         {
             try
@@ -226,6 +252,47 @@ namespace Betting.DataAccess.Sql
             catch (Exception ex)
             {
                 this.logProvider.Error($"SqlTradingRepository, CreateOrUpdateSelection, id='{selection.Id}', label='{selection.Label}'", ex);
+                throw;
+            }
+        }
+
+        public string AddOrUpdateTeam(Team team)
+        {
+            try
+            {
+                this.logProvider.Info(
+                    $"SqlTradingRepository, AddOrUpdateTeam, id='{team.Id}', name='{team.Name}'");
+
+                var query = this.MakeInsertOrUpdateTeamQuery(team);
+                var newId = GenerateNewId();
+                query = query.Replace("$NEWID", newId);
+
+                var dbResult = this.ExecuteNonQuery(query);
+
+                return dbResult == 1 ? newId : null;
+            }
+            catch (Exception ex)
+            {
+                this.logProvider.Error($"SqlTradingRepository, AddOrUpdateTeam, id='{team.Id}', name='{team.Name}'", ex);
+                throw;
+            }
+        }
+
+        public bool DeleteSelection(string id)
+        {
+            try
+            {
+                this.logProvider.Info($"SqlTradingRepository, DeleteSelection, id='{id}'");
+
+                var query = this.MakeDeleteByIdQuery(id, "selections");
+
+                var dbResult = this.ExecuteNonQuery(query);
+
+                return dbResult == 1;
+            }
+            catch (Exception ex)
+            {
+                this.logProvider.Error($"SqlTradingRepository, DeleteSelection, id='{id}'", ex);
                 throw;
             }
         }
@@ -306,14 +373,33 @@ namespace Betting.DataAccess.Sql
             return cat;
         }
 
+        private Team MakeTeam(MySqlDataReader record)
+        {
+            var cat = new Team
+            {
+                Id = record["id"].ToString(),
+                Cid = record["cid"].ToString(),
+                Name = record["name"].ToString(),
+                Description = record["description"].ToString(),
+                CreatedOn = ToDateTime(record["createdOn"].ToString())
+            };
+
+            if (!string.IsNullOrEmpty(record["endedOn"].ToString()))
+            {
+                cat.EndedOn = ToDateTime(record["endedOn"].ToString());
+            }
+
+            return cat;
+        }
+
         private Selection MakeSelection(MySqlDataReader record)
         {
             var cat = new Selection
             {
                 Id = record["id"].ToString(),
-                CId = record["cid"].ToString(),
+                Cid = record["cid"].ToString(),
                 Label = record["label"].ToString(),
-                Price = Convert.ToDecimal(record["label"].ToString()),
+                Odds = record["odds"].ToString(),
                 CreatedOn = ToDateTime(record["createdOn"].ToString())
             };
 

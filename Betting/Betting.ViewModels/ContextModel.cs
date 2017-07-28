@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace Betting.ViewModels
 {
-    public class ContextModel
+    public class ContextModel : BaseViewModel
     {
 
         public ContextModel()
         {
             this.Selections = new List<SelectionModel>();
+            this.Teams = new List<TeamModel>();
         }
-
-        public string Id { get; set; }
 
         public string CatId { get; set; }
 
@@ -23,11 +22,7 @@ namespace Betting.ViewModels
         /// </summary>
         public string Label { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
-        public bool Ended => this.EndedOn.HasValue;
-
-        public DateTime? EndedOn { get; set; }
+        public List<TeamModel> Teams { get; set; }
 
         public List<SelectionModel> Selections { get; set; }
     }

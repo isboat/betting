@@ -23,6 +23,11 @@ namespace Betting.ViewModels
 
     public class ContextCategoryDetails: ContextCategoryView
     {
-        public List<ContextModel> ContextModels { get; set; }
+        public ContextCategoryDetails()
+        {
+            Contexts = new List<ContextModel>();
+        }
+
+        public List<ContextModel> Contexts { get; set; }
     }
 }

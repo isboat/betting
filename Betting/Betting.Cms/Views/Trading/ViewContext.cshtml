@@ -46,7 +46,208 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<script id="team-tpl" type="text/x-handlebars-template">
+    <tr class="list-item" data-id="{{id}}">
+        <td>
+            <div class="col-md-10">
+                <input disabled="disabled" class="form-control text-box single-line teamname" type="text" value="{{name}}">
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                <textarea disabled="disabled" class="form-control text-area teamdescription" type="text" value="">{{description}}</textarea>
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-default editbtn">Edit</button>
+            <button class="btn btn-default savebtn saveTeam" style="display: none;">Save</button>
+            <button class="btn btn-default">Delete</button>
+        </td>
+    </tr>
+</script>
+<script id="teams-tpl" type="text/x-handlebars-template">
+    <table class="table">
+        <tr>
+            <th>Team / Constestant name</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tbody class="teamtable">
+            {{#each teams}}
+            {{{renderTeam this}}}
+            {{/each}}
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" id="newTeam" name="label" type="text" value="">
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        <textarea class="form-control text-area" id="newTeamDesc" name="label" type="text" value=""></textarea>
+                    </div>
+                </td>
+                <td>
+                    <input type="submit" value="Add" onclick="window.cms.contextview.addNewTeam()" class="btn btn-default">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script id="sel-tpl" type="text/x-handlebars-template">
+    <tr class="list-item" data-id="{{id}}">
+        <td>
+            <div class="col-md-10">
+                <input disabled="disabled" class="form-control text-box single-line selectionLabel" type="text" value="{{label}}">
+            </div>
+        </td>
+        <td>
+            <div class="col-md-10">
+                <input disabled="disabled" class="text-box single-line firstnumm" type="text" value="{{firstnumm}}">/
+                <input disabled="disabled" class="text-box single-line secondnum" type="text" value="{{secondnum}}">
+            </div>
+        </td>
+        <td>
+            <button class="btn btn-default editbtn">Edit</button> 
+            <button class="btn btn-default savebtn saveSelection" style="display: none;">Save</button>
+            <button class="btn btn-danger deletebtn deleteselection">Delete</button>
+        </td>
+    </tr>
+</script>
+<script id="sels-tpl" type="text/x-handlebars-template">
+    <table class="table">
+        <tr>
+            <th>Selection Label</th>
+            <th>Selection Price</th>
+            <th></th>
+        </tr>
+        <tbody class="seltable">
+            {{#each selections}}
+            {{{renderSelection this}}}
+            {{/each}}
+        </tbody>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" id="newSel" name="label" type="text" value="">
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-10">
+                        <input class="text-box single-line" id="newoddfirstnum" name="label" type="text" value="">/
+                        <input class="text-box single-line" id="newoddsecondnum" name="label" type="text" value="">
+                    </div>
+                </td>
+                <td>
+                    <input type="submit" value="Add" onclick="window.cms.contextview.addNewSel()" class="btn btn-default">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<ul class="teams hide">
+    @foreach (var item in Model.Teams)
+    {
+        <li data-id="@item.Id" data-cid="@item.Cid" data-name="@item.Name" data-description="@item.Description" data-created="@item.CreatedOn"></li>
+    }
+</ul>
+<ul class="sels hide">
+    @foreach (var item in Model.Selections)
+    {
+        <li data-id="@item.Id" 
+            data-cid="@item.Cid" 
+            data-label="@item.Label" 
+            data-firstnumm="@item.FirstNum"
+            data-secondnum="@item.SecondNum"
+            data-created="@item.CreatedOn"></li>
+    }
+</ul>
+
+<div class="teamlist"></div>
+<div class="selslist"></div>
+
+<script src="~/Scripts/cms.contextView.js?@DateTime.Now.Ticks"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.cms.contextview.renderTeams();
+        window.cms.contextview.renderSelections();
+        window.cms.contextview.cid = '@Model.Id';
+
+        $(".editbtn").click(function() {
+            var tr = $(this).parents(".list-item");
+            tr.find("[disabled='disabled']").removeAttr("disabled");
+            tr.find(".savebtn").show();
+
+            $(this).hide();
+        });
+
+        $(".saveSelection").click(function() {
+            var tr = $(this).parents(".list-item");
+
+            var id = tr.attr("data-id");
+            var label = tr.find(".selectionLabel").val();
+            var oddfirstnumm = tr.find(".firstnumm").val();
+            var oddsecondnum = tr.find(".secondnum").val();
+
+            var $ele = $(this);
+            window.cms.contextview.saveSelection({
+                    id: id,
+                    label: label,
+                    firstnum: oddfirstnumm,
+                    secondnum: oddsecondnum
+                },
+                function () {
+                    tr.find("input").attr("disabled","disabled");
+                    tr.find(".editbtn").show();
+                    $ele.hide();
+                });
+
+        });
+
+        $(".deleteselection").click(function () {
+            var tr = $(this).parents(".list-item");
+
+            var id = tr.attr("data-id");
+
+            if (id) {
+             
+            window.cms.contextview.deleteSelection(id,
+                function(success) {
+                    if (success) {
+                        tr.remove();
+                    }
+                });
+            }
+        });
+
+        $(".saveTeam").click(function () {
+            var tr = $(this).parents(".list-item");
+
+            var id = tr.attr("data-id");
+            var name = tr.find(".teamname").val();
+            var description = tr.find(".teamdescription").val();
+
+            var $ele = $(this);
+            window.cms.contextview.updateTeam({
+                id: id,
+                name: name,
+                description: description
+            },
+                function (data) {
+                    tr.find("input").attr("disabled", "disabled");
+                    tr.find("textarea").attr("disabled", "disabled");
+                    tr.find(".selectionDir").attr("disabled", "disabled");
+                    tr.find(".editbtn").show();
+                    $ele.hide();
+                });
+
+        });
+    });
+</script>
